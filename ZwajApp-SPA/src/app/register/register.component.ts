@@ -10,7 +10,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class RegisterComponent implements OnInit {
   @Output() canselRegister = new EventEmitter();
   model: any = {};
-  constructor(private authService: AuthService,private  alertifyService:AlertifyService) { }
+  constructor(private authService: AuthService, private alertifyService: AlertifyService) { }
 
   ngOnInit() {
   }
