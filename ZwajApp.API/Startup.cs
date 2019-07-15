@@ -15,6 +15,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ZwajApp.API.Data;
+using System.Net;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
+using ZwajApp.API.Helpers;
 
 namespace ZwajApp.API
 {
@@ -59,6 +63,18 @@ namespace ZwajApp.API
 			}
 			else
 			{
+				app.UseExceptionHandler(BuilderExtensions=>{
+					BuilderExtensions.Run(
+						async context=>{
+							context.Response.StatusCode=(int)HttpStatusCode.InternalServerError;
+							var error=context.Features.Get<IExceptionHandlerFeature>();
+							if(error!=null){
+								context.Response.addApplicationError(error.Error.Message);
+								await context.Response.WriteAsync(error.Error.Message);
+							}
+						}
+					);
+				});
 				//  app.UseHsts();
 			}
 
