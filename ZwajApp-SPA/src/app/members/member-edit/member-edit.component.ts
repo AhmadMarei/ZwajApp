@@ -32,7 +32,6 @@ export class MemberEditComponent implements OnInit {
     this.userService.updateUser(this.authService.decodeToken.nameid, this.user).subscribe(
       next => {
         this.alertifyService.success('تم حفظ التعديلات');
-        this.alertifyService.success('تم حفظ التعديلات');
         this.editForm.reset(this.user);
       }, error => { this.alertifyService.error(error) }
     );
