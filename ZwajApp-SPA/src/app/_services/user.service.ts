@@ -18,11 +18,14 @@ export class UserService {
   constructor(private http: HttpClient) { }
   getUsers(): Observable<User[]> {
     // return this.http.get<User[]>(this.baseUrl, httpOptions); old method befaure we use jwt library
-        return this.http.get<User[]>(this.baseUrl);
+    return this.http.get<User[]>(this.baseUrl);
 
   }
   getUser(id: number): Observable<User> {
     // return this.http.get<User>(this.baseUrl + id, httpOptions);
     return this.http.get<User>(this.baseUrl + id);
+  }
+  updateUser(id: number, user: User) {
+    return this.http.put(this.baseUrl + id, user);
   }
 }
