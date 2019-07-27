@@ -35,7 +35,7 @@ font-family:ToyorAljanah-Regular;font-size:2.25rem;font-weight:bolder" class="na
       تسجيل الخروج</a>
   </div>
 </div>
- <span *ngIf="loggedIn()"> <img src="{{photoUrl}}" alt=""></span>
+ <span *ngIf="loggedIn()"> <img src="{{photoUrl || 'assets/User.png'}}" alt=""></span>
   <form *ngIf="!loggedIn()" (ngSubmit)="Login()" #LoginForm="ngForm" class="form-inline  ">
     <input name="username" required class="form-control mr-sm-2" type="text" [(ngModel)]="model.username" placeholder="إسم المشترك">
     <input name="password" required class="form-control mr-sm-2" type="password" [(ngModel)]="model.password" placeholder="كلمة السر">
