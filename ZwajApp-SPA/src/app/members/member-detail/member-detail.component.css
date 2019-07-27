@@ -13,14 +13,14 @@
     border-top: none;
 }
 
-     .btn-success:hover{
+     .btn-primary:hover{
         text-decoration: none;
         color: black !important;
         background:pink !important;
         letter-spacing:0.5px;
 
       }
-      .btn-success{
+      .btn-primary{
         text-decoration: none;
         letter-spacing:0.5px;
         font-weight:bold;
@@ -44,7 +44,7 @@ strong,span{
     text-align: right;
 
 }
-h4,textarea,label,input{
+h4{
     letter-spacing:0.5px;
     font-weight:bolder;
     font-family:'JF Flat';
@@ -52,12 +52,5 @@ h4,textarea,label,input{
     margin-top: -2px;
     margin-bottom: 10px;
     text-align: right;
-
-}
-h1{
-    letter-spacing:0.5px;
-    font-weight:bolder;
-    font-family:'JF Flat';
-    font-size:2.5em;
 
 }

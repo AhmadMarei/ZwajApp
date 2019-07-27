@@ -40,6 +40,7 @@ namespace ZwajApp.API
 				option.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 			});
 			services.AddCors();
+			services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
 			services.AddAutoMapper();
 			services.AddTransient<TrialData>();
 			services.AddScoped<IAuthRepository, AuthRepository>();

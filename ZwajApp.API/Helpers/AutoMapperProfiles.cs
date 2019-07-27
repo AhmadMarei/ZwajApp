@@ -11,6 +11,7 @@ namespace ZwajApp.API.Helpers
 
 		public AutoMapperProfiles()
 		{
+			// CreateMap<sorce,dest>();
 			CreateMap<User, UserForListDto>().ForMember(dest => dest.PhotoURL, opt =>
 			{
 				opt.MapFrom(sou => sou.Photos.FirstOrDefault(p => p.IsMain).Url);
@@ -24,6 +25,8 @@ namespace ZwajApp.API.Helpers
             .ForMember(dest => dest.Age,opt =>opt.ResolveUsing(dest =>dest.DateOfBirth.CalculatAge()));
 			CreateMap<Photo, PhotoForDetailsDto>();
 			CreateMap<UserForUpdateDto, User>();
+			CreateMap<Photo,PhotoForReturnDto>();
+			CreateMap<PhotoForCreateDto,Photo>();
 		}
 	}
 }

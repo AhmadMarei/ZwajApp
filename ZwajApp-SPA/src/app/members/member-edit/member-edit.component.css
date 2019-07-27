@@ -13,7 +13,7 @@
     border-top: none;
 }
 
-     .btn-success:hover{
+     .btn-success:enabled:hover{
         text-decoration: none;
         color: black !important;
         background:pink !important;

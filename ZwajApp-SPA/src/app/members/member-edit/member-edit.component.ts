@@ -19,7 +19,9 @@ export class MemberEditComponent implements OnInit {
       $event.returnValue = true;
     }
   }
+
   user: User;
+  photoUrl:string;
   constructor(private activatedRoute: ActivatedRoute, private alertifyService: AlertifyService,
     private userService: UserService, private authService: AuthService) { }
 
@@ -27,6 +29,9 @@ export class MemberEditComponent implements OnInit {
     this.activatedRoute.data.subscribe(data => {
       this.user = data['user'];
     });
+        this.authService.currentPhotoUrl.subscribe(
+      photoUrl => this.photoUrl = photoUrl
+    )
   }
   updateUser() {
     this.userService.updateUser(this.authService.decodeToken.nameid, this.user).subscribe(
