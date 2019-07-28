@@ -10,15 +10,15 @@
           </div>
           <div>
             <strong>العمر </strong>
-            <p>{{user.age}}</p>
+            <p>{{age}}</p>
           </div>
           <div>
             <strong>آخر ظهور </strong>
-            <p>{{user.lastActive}}</p>
+            <p>{{user.lastActive | timeAgo}}</p>
           </div>
           <div>
             <strong>مشترك منذ </strong>
-            <p>{{user.created}}</p>
+            <p>{{created}}</p>
           </div>
         </div>
         <div class="card-footer">
@@ -34,21 +34,30 @@
         <tabset class="member-tabset">
           <tab heading="أنا {{user?.knownAs}}">
             <div class="card">
-                <div class="card-header">
-                    <h4>أعرفك بنفسي</h4>
-                  </div>
-                  <div class="card-text mt-3 p-2">
-                    <p>{{user.introduction}}</p>
-                  </div>
+              <div class="card-header">
+                <h4>أعرفك بنفسي</h4>
+              </div>
+              <div class="card-text mt-3 p-2">
+                <p #intro>{{user.introduction | slice:0:200}}</p>
+                <button [hidden]='!showIntro' class="btn btn-primary"
+                  (click)="intro.innerText = user.introduction;showIntro = false">اقرء المزيد</button>
+                <button [hidden]='showIntro' class="btn btn-primary"
+                  (click)="intro.innerText=user.introduction.slice(0,200);showIntro=true">تصغير</button>
+
+              </div>
             </div>
 
             <div class="card mt-4">
-                <div class="card-header">
-                    <h4>أبحث عن</h4>
-                  </div>
-                  <div class="card-text mt-3 p-2">
-                    <p>{{user.lookingFor}}</p>
-                  </div>
+              <div class="card-header">
+                <h4>أبحث عن</h4>
+              </div>
+              <div class="card-text mt-3 p-2">
+                <p #look>{{user.lookingFor |slice:0:200}}</p>
+                <button [hidden]='!showLook' class="btn btn-primary"
+                  (click)="look.innerText = user.lookingFor;showLook = false">اقرء المزيد</button>
+                <button [hidden]='showLook' class="btn btn-primary"
+                  (click)="look.innerText=user.lookingFor.slice(0,200);showLook=true">تصغير</button>
+              </div>
             </div>
 
 
@@ -56,30 +65,30 @@
 
 
 
-      <tab heading="هواياتي">
-          <div class="card">
+          <tab heading="هواياتي">
+            <div class="card">
               <div class="card-header">
-                  <h4>هواياتي</h4>
-                </div>
-                <div class="card-text mt-3 p-2">
-                    <p>{{user.interests}}</p>
-                </div>
-          </div>
-      </tab>
+                <h4>هواياتي</h4>
+              </div>
+              <div class="card-text mt-3 p-2">
+                <p>{{user.interests}}</p>
+              </div>
+            </div>
+          </tab>
 
 
-      <tab heading="ألبوم الصور">
+          <tab heading="ألبوم الصور">
 
-        <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
-      </tab>
+            <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+          </tab>
 
-      <tab heading="الرسائل">
-        <h4>الرسائل</h4>
-        <p>الرسائل قادمة</p>
-      </tab>
+          <tab heading="الرسائل">
+            <h4>الرسائل</h4>
+            <p>الرسائل قادمة</p>
+          </tab>
 
-      </tabset>
+        </tabset>
+      </div>
     </div>
   </div>
-</div>
 </div>

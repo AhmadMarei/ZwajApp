@@ -7,6 +7,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BsDropdownModule, TabsModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
 import { NgxGalleryModule } from 'ngx-gallery';
+import {TimeAgoPipe} from 'time-ago-pipe';
 
 
 
@@ -48,6 +49,7 @@ export function tokenGetter() {
       MemberCardComponent,
       MemberDetailComponent,
       MemberEditComponent,
+      TimeAgoPipe,
       PhotoEditorComponent
    ],
    imports: [

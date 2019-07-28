@@ -14,6 +14,11 @@ export class MemberDetailComponent implements OnInit {
   user: User;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
+  created: string;
+  age: string;
+  showIntro: true;
+  showLook:true;
+  options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   constructor(private userService: UserService, private alertifyService: AlertifyService, private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -26,6 +31,11 @@ export class MemberDetailComponent implements OnInit {
       thumbnailsColumns: 4, imageAnimation: NgxGalleryAnimation.Slide, preview: false
     }];
     this.galleryImages = this.getImages();
+
+    this.created = new Date(this.user.created).toLocaleString('ar-EG', this.options).replace(',', '');
+    this.age = this.user.age.toLocaleString('ar-EG');
+    this.showIntro = true;
+    this.showLook=true;
   }
   // loadUser() {
   //   this.userService.getUser(+this.route.snapshot.params['id']).subscribe(
