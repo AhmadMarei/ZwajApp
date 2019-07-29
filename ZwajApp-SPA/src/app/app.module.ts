@@ -4,7 +4,7 @@ import { AuthService } from './_services/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { BsDropdownModule, TabsModule, BsDatepickerModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TabsModule, BsDatepickerModule, PaginationModule, ButtonsModule } from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
 import { NgxGalleryModule } from 'ngx-gallery';
 import {TimeAgoPipe} from 'time-ago-pipe';
@@ -54,10 +54,12 @@ export function tokenGetter() {
    ],
    imports: [
       BrowserModule,
+      PaginationModule.forRoot(),
       HttpClientModule,
     NgxGalleryModule,
     FileUploadModule,
     ReactiveFormsModule,
+    ButtonsModule,
 
       FormsModule,
       BsDropdownModule.forRoot(),

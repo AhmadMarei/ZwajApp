@@ -1,4 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { Pagination, PaginationResult } from './../_models/Pagination';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
@@ -16,9 +18,30 @@ import { User } from '../_models/user';
 export class UserService {
   baseUrl = environment.apiUrl + 'users/';
   constructor(private http: HttpClient) { }
-  getUsers(): Observable<User[]> {
+  getUsers(page?, itemsPerPage?, userParams?): Observable<PaginationResult<User[]>> {
+    const paginationResult: PaginationResult<User[]> = new PaginationResult<User[]>();
+    let params = new HttpParams();
+    if (page != null && itemsPerPage != null) {
+      params = params.append('pageNumber', page);
+      params = params.append('pageSize', itemsPerPage);
+    }
+    if (userParams != null) {
+      params = params.append('minAge', userParams.minAge);
+      params = params.append('maxAge', userParams.maxAge);
+      params = params.append('gender', userParams.gender);
+      params = params.append('orderBy', userParams.orderBy);
+
+    }
     // return this.http.get<User[]>(this.baseUrl, httpOptions); old method befaure we use jwt library
-    return this.http.get<User[]>(this.baseUrl);
+    return this.http.get<User[]>(this.baseUrl, { observe: 'response', params }).pipe(
+      map(response => {
+        paginationResult.result = response.body;
+        if (response.headers.get('Pagination') != null) {
+          paginationResult.pagination = JSON.parse(response.headers.get('Pagination'));
+        }
+        return paginationResult;
+      })
+    );
 
   }
   getUser(id: number): Observable<User> {
@@ -31,7 +54,7 @@ export class UserService {
   setMainPhoto(userId: number, id: number) {
     return this.http.post(this.baseUrl + userId + '/photos/' + id + '/setMain', {});
   }
-  deletePhoto(userId: number, id: number){
+  deletePhoto(userId: number, id: number) {
     return this.http.delete(this.baseUrl + userId + '/photos/' + id);
   }
 }
