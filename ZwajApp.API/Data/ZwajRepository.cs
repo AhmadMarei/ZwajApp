@@ -37,6 +37,16 @@ namespace ZwajApp.API.Data
 			var users = _context.Users.Include(u => u.Photos).OrderByDescending(u => u.LastActive).AsQueryable();
 			users = users.Where(u => u.Id != userParams.UserId);
 			users = users.Where(u => u.Gender == userParams.Gender);
+			if (userParams.Likers)
+			{
+				var userLikers= await GetUserLikes(userParams.UserId,userParams.Likers);
+				users=users.Where(u =>userLikers.Contains(u.Id));
+			}
+			if (userParams.Likees)
+			{
+				var userLikees= await GetUserLikes(userParams.UserId,userParams.Likers);
+				users=users.Where(u =>userLikees.Contains(u.Id));
+			}
 			if (userParams.MinAge != 18 || userParams.MaxAge != 99)
 			{
 				var minDob = DateTime.Today.AddYears(-userParams.MaxAge - 1);
@@ -44,15 +54,16 @@ namespace ZwajApp.API.Data
 				users = users.Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
 
 			}
-			if (userParams.OrderBy !=null)
+			if (userParams.OrderBy != null)
 			{
-				switch(userParams.OrderBy){
+				switch (userParams.OrderBy)
+				{
 					case "created":
-					users=users.OrderBy(u =>u.Created);
-					break;
+						users = users.OrderBy(u => u.Created);
+						break;
 					default:
-					users=users.OrderBy(u =>u.LastActive);
-					break;
+						users = users.OrderBy(u => u.LastActive);
+						break;
 				}
 
 			}
@@ -74,6 +85,20 @@ namespace ZwajApp.API.Data
 		{
 			var photo = await _context.Photos.Where(x => x.UserId == userId).FirstOrDefaultAsync(x => x.IsMain);
 			return photo;
+		}
+
+		public async Task<Like> GetLike(int userId, int resipientId)
+		{
+			return await _context.Likes.FirstOrDefaultAsync(l => l.LikerId == userId && l.LikeeId == resipientId);
+		}
+
+		private async Task<IEnumerable<int>> GetUserLikes(int id , bool Likers){
+			var user = await _context.Users.Include(u =>u.Likers).Include(u =>u.Likees).FirstOrDefaultAsync(u =>u.Id==id);
+				if(Likers){
+					return user.Likers.Where(u =>u.LikeeId==id).Select(l => l.LikerId);
+				} else {
+					return user.Likees.Where(u =>u.LikerId==id).Select(l => l.LikeeId);
+				}
 		}
 	}
 }

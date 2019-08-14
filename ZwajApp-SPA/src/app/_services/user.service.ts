@@ -18,7 +18,7 @@ import { User } from '../_models/user';
 export class UserService {
   baseUrl = environment.apiUrl + 'users/';
   constructor(private http: HttpClient) { }
-  getUsers(page?, itemsPerPage?, userParams?): Observable<PaginationResult<User[]>> {
+  getUsers(page?, itemsPerPage?, userParams?, likeParams?): Observable<PaginationResult<User[]>> {
     const paginationResult: PaginationResult<User[]> = new PaginationResult<User[]>();
     let params = new HttpParams();
     if (page != null && itemsPerPage != null) {
@@ -30,6 +30,14 @@ export class UserService {
       params = params.append('maxAge', userParams.maxAge);
       params = params.append('gender', userParams.gender);
       params = params.append('orderBy', userParams.orderBy);
+
+    }
+    if (likeParams === 'Likers') {
+    params = params.append('likers', 'true');
+
+    }
+     if (likeParams === 'Likees') {
+    params = params.append('likees', 'true');
 
     }
     // return this.http.get<User[]>(this.baseUrl, httpOptions); old method befaure we use jwt library
@@ -56,5 +64,8 @@ export class UserService {
   }
   deletePhoto(userId: number, id: number) {
     return this.http.delete(this.baseUrl + userId + '/photos/' + id);
+  }
+  sendLike(id: number, recipientId: number) {
+    return this.http.post(this.baseUrl + id + '/like/' + recipientId, {});
   }
 }
