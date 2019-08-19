@@ -1,3 +1,4 @@
+import { Message } from './../_models/message';
 import { map } from 'rxjs/operators';
 import { Pagination, PaginationResult } from './../_models/Pagination';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -33,11 +34,11 @@ export class UserService {
 
     }
     if (likeParams === 'Likers') {
-    params = params.append('likers', 'true');
+      params = params.append('likers', 'true');
 
     }
-     if (likeParams === 'Likees') {
-    params = params.append('likees', 'true');
+    if (likeParams === 'Likees') {
+      params = params.append('likees', 'true');
 
     }
     // return this.http.get<User[]>(this.baseUrl, httpOptions); old method befaure we use jwt library
@@ -67,5 +68,42 @@ export class UserService {
   }
   sendLike(id: number, recipientId: number) {
     return this.http.post(this.baseUrl + id + '/like/' + recipientId, {});
+  }
+  getMessages(id: number, page?, itemsPerPage?, messageType?) {
+    const paginationResult: PaginationResult<Message[]> = new PaginationResult<Message[]>();
+    let params = new HttpParams();
+    params = params.append('MessageType', messageType);
+    if (page != null && itemsPerPage != null) {
+      params = params.append('pageNumber', page);
+      params = params.append('pageSize', itemsPerPage);
+    }
+    return this.http.get<Message[]>(this.baseUrl + id + '/messages', { observe: 'response', params }).pipe(
+      map(response => {
+        paginationResult.result = response.body;
+        if (response.headers.get('Pagination') !== null) {
+          paginationResult.pagination = JSON.parse(response.headers.get('Pagination'));
+
+        }
+        return paginationResult;
+      })
+    );
+  }
+
+  getConversation(id: number, recipientId: number) {
+    return this.http.get<Message[]>(this.baseUrl + id + '/messages/chat/' + recipientId);
+
+  }
+  sendMessage(id: number, message: Message) {
+    return this.http.post(this.baseUrl + id + '/messages', message);
+  }
+  getUnreadCount(userId) {
+    return this.http.get(this.baseUrl + userId + '/messages/count');
+  }
+  markAsRead(userId: number, messageId: number) {
+    return this.http.post(this.baseUrl + userId + '/messages/read/' + messageId, {}).subscribe();
+  }
+  deleteMessage(id: number, userId: number) {
+    debugger
+    return this.http.post(this.baseUrl + userId + '/messages/' + id, {});
   }
 }

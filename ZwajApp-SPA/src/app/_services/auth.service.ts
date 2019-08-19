@@ -5,6 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { BehaviorSubject } from 'rxjs';
+import { HubConnectionBuilder } from '@aspnet/signalr';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +17,11 @@ export class AuthService {
   decodeToken: any;
   currentUser: User;
   photoUrl = new BehaviorSubject<string>('../../assets/User.png');
+  unreadCount = new BehaviorSubject<string>('');
   currentPhotoUrl = this.photoUrl.asObservable();
+  latesUnreadCount = this.unreadCount.asObservable();
+  hubConnection = new HubConnectionBuilder().withUrl('http://localhost:5000/chat').build();
+
 
   changeMemberPhoto(newPhotoUrl: string) {
     this.photoUrl.next(newPhotoUrl);
