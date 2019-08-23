@@ -9,7 +9,6 @@ using ZwajApp.API.Data;
 
 namespace ZwajApp.API.Controllers
 {
-	[Authorize]
 	[Route("api/[controller]")]
 	[ApiController]
 	public class ValuesController : ControllerBase
@@ -20,7 +19,7 @@ namespace ZwajApp.API.Controllers
 			_context = context;
 		}
 		// GET api/values
-		[AllowAnonymous]
+		[Authorize(Roles="Admin")]
 		[HttpGet]
 		public async Task<IActionResult> GetValues()
 		{
@@ -29,7 +28,7 @@ namespace ZwajApp.API.Controllers
 		}
 
 		// GET api/values/5
-		[AllowAnonymous]
+		[Authorize(Roles="Admin")]
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetValue(int id)
 		{

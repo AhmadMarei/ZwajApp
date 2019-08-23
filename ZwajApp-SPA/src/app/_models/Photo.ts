@@ -3,4 +3,5 @@ export interface Photo {
   url: string;
   dateadded: Date;
   isMain: boolean;
+  isApproved: boolean;
 }

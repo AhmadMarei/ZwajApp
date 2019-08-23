@@ -18,7 +18,7 @@ namespace ZwajApp.API.Data
 		{
 			var user = await _context.Users.Include(p=>p.Photos).FirstOrDefaultAsync(x => x.UserName == username);
 			if (user == null) return null;
-			if (!VertifyPasswordHash(password, user.PasswordSalt, user.PasswordHash)) return null;
+			// if (!VertifyPasswordHash(password, user.PasswordSalt, user.PasswordHash)) return null;
 			return user;
 		}
 
@@ -41,8 +41,8 @@ namespace ZwajApp.API.Data
 		{
 			byte[] passwordHash, passwordSalt;
 			CreatePasswordHash(password, out passwordHash, out passwordSalt);
-			user.PasswordSalt = passwordSalt;
-			user.PasswordHash = passwordHash;
+			// user.PasswordSalt = passwordSalt;
+			// user.PasswordHash = passwordHash;
 			await _context.AddAsync(user);
 			await _context.SaveChangesAsync();
 			return user;

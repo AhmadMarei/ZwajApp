@@ -14,7 +14,7 @@ using ZwajApp.API.Models;
 
 namespace ZwajApp.API.Controllers
 {
-	[Authorize]
+	// [Authorize]
 	[Route("api/users/{userId}/photos")]
 	[ApiController]
 	public class PhotosController : ControllerBase
@@ -52,7 +52,7 @@ namespace ZwajApp.API.Controllers
 		{
 			if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
 				return Unauthorized();
-			var userFromRepo = await _repo.GetUser(userId);
+			var userFromRepo = await _repo.GetUser(userId,true);
 			var file = photoForCreateDto.File;
 			var uploadResult = new ImageUploadResult();
 			if (file != null && file.Length > 0)
@@ -90,7 +90,7 @@ namespace ZwajApp.API.Controllers
 		{
 			if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
 				return Unauthorized();
-			var userFromRepo = await _repo.GetUser(userId);
+			var userFromRepo = await _repo.GetUser(userId,true);
 			if (!userFromRepo.Photos.Any(p => p.Id == id))
 				return Unauthorized();
 			var DesiredMainPhoto = await _repo.GetPhoto(id);
@@ -110,7 +110,7 @@ namespace ZwajApp.API.Controllers
 		{
 			if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
 				return Unauthorized();
-			var userFromRepo = await _repo.GetUser(userId);
+			var userFromRepo = await _repo.GetUser(userId,true);
 			if (!userFromRepo.Photos.Any(p => p.Id == id))
 				return Unauthorized();
 			var Photo = await _repo.GetPhoto(id);

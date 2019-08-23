@@ -166,3 +166,31 @@
 .bs-datepicker{
   direction: rtl;
 }
+.page-header{
+  text-align: center !important;
+  border-bottom: 4px solid #E95420 !important;
+  background-color: #333 !important;
+  color:#fff !important;
+  font-weight:bolder !important;
+  font-family:'JF Flat' !important;
+  font-size:1.3rem !important;
+  border-radius: 10px !important;
+  vertical-align: middle !important;
+  display: table-cell;
+}
+.header-container{
+  min-height: 50px;
+  display: table;
+  width: 33%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.role-badge{
+  border-radius: 5px !important;
+  margin-right: 5px;
+  background-color: #E95420 !important;
+  color:#fff !important;
+  font-family:'arial' !important;
+  font-size:0.9rem !important;
+  padding: 5px;
+}

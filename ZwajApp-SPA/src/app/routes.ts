@@ -1,3 +1,4 @@
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { MessagesComponent } from './messages/messages.component';
@@ -38,7 +39,8 @@ export const appRoutes: Routes = [
         }},
       { path: 'messages', component: MessagesComponent , resolve: {
           messages: MessageResolver
-        }}
+        }},
+        { path: 'admin', component: AdminPanelComponent,data:{roles:['Admin','Moderator']}}
     ]
   },
   { path: '**', redirectTo: '', pathMatch: 'full' }
